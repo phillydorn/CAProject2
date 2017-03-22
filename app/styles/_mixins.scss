@@ -1,0 +1,46 @@
+
+@mixin centerX {
+  left: 50%;
+  @include prefixer(transform, translateX(-50%), webkit moz ms o);
+}
+
+@mixin resetCenterX {
+  left: 0;
+  @include prefixer(transform, translateX(0), webkit moz ms o);
+}
+
+@mixin centerMarginX {
+  margin-left: 50%;
+  @include prefixer(transform, translateX(-50%), webkit moz ms o);
+}
+
+@mixin resetMarginX {
+  margin-left: 0;
+  @include prefixer(transform, translateX(0), webkit moz ms o);
+}
+
+@mixin centerY {
+  top: 50%;
+  @include prefixer(transform, translateY(-50%), webkit moz ms o);
+}
+
+@mixin center {
+  top: 50%;
+  left: 50%;
+  @include prefixer(transform, translate(-50%, -50%), webkit moz ms o);
+}
+
+@mixin clearLeft {
+  &::after {
+    clear: left;
+    content: "";
+    display: table;
+  }
+}
+@mixin clearRight {
+  &::after {
+    clear: right;
+    content: "";
+    display: table;
+  }
+}

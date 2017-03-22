@@ -1,0 +1,18 @@
+.home-feed {
+  background: $white;
+  @include media($bootstrap-medium) {
+    padding-top: 60px;
+  }
+  .LazyLoad {
+    img {
+      opacity: 0;
+      -moz-transition: opacity 2s; /* Firefox 4 */
+      -webkit-transition: opacity 2s; /* Safari and Chrome */
+      -o-transition: opacity 2s;
+      transition: opacity 2s;
+      &.loaded {
+        opacity: 1;
+      }
+    }
+  }
+}

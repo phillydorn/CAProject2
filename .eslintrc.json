@@ -1,0 +1,37 @@
+{
+  "extends": "airbnb",
+  "rules": {
+    "arrow-body-style": ["warn", "always"],
+    "no-param-reassign": ["error", {
+      "props": false
+    }],
+    "class-methods-use-this": 1,
+    "global-require": 1,
+    "import/no-extraneous-dependencies": 0,
+    "import/no-named-as-default": 0,
+    "jsx-a11y/no-static-element-interactions": 1,
+    "max-len": 0,
+    "no-mixed-operators": 0,
+    "no-restricted-syntax": 0,
+    "react/jsx-filename-extension": 0,
+    "react/forbid-prop-types": 1,
+    "react/jsx-no-bind": 0,
+    "react/require-extension": "off",
+    "strict": 0
+  },
+  "settings": {
+    "import/core-modules": [
+      "app",
+      "aws-sdk",
+      "zombie"
+    ]
+  },
+  "globals":{
+    "window": true,
+    "localStorage": true
+  },
+  "env": {
+    "browser": true,
+    "node": true
+  }
+}
