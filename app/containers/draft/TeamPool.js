@@ -21,7 +21,7 @@ class TeamPoolContainer extends Component {
   }
 
   checkSchoolsList (nextProps) {
-    console.log('this', this.props.schoolsList, 'next', nextProps.schoolsList)
+    // console.log('this', this.props.schoolsList, 'next', nextProps.schoolsList)
       let len = this.props.schoolsList.length;
       for (let i = 0; i<len; i++) {
         if (this.props.schoolsList[i].id !== nextProps.schoolsList[i].id) {
@@ -58,13 +58,13 @@ class TeamPoolContainer extends Component {
         )
     });
     return (
-      <div className="team-pool-container">
+      <div className="team-box-container">
         <div className="ranking-switch">
           <p>Ranking</p>
           <button className={"ranking-button ranking-default " + isDefault } onClick={this.toggleDefault.bind(this)} >Default </button>
           <button className= {"ranking-button ranking-custom " + isCustom } onClick={this.toggleCustom.bind(this)} >Custom</button>
         </div>
-        <div className = "team-box teamPool">
+        <div className = "team-box team-pool">
           <ul className="team-list">
            {schoolNodes}
           </ul>

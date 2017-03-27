@@ -3,9 +3,12 @@ import fetch from '../../utils/api';
 export const CREATED_TEAMS = Symbol('CREATED_TEAMS');
 
 
-const createdTeams = () => {
+const createdTeams = ({leagueId}) => {
   return {
-    type: CREATED_TEAMS,
+    type: 'server/leaguePage',
+    data: {
+      leagueId,
+    },
   };
 };
 
@@ -14,11 +17,11 @@ export function createTeams({leagueId}) {
   return (dispatch, getState) => {
     return fetch(getState().log)('/api/mocks/teams/', {
       method: 'POST',
-      body: {leagueId}
+      body: JSON.stringify({leagueId})
     })
       .then((response) => {
-        console.log('response', response)
-        return dispatch(createdTeams());
+        // dispatch leaguepage
+        return dispatch(createdTeams({leagueId}));
        
       });
   };

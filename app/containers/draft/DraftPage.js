@@ -8,11 +8,11 @@ import { populate } from '../../actions/draft/draft';
 import TeamPool from './TeamPool';
 // import teamPoolStore from '../stores/teamPoolStore.js';
 import Timer from './Timer';
-// import UserTeam from './userTeam.jsx.js';
-import CreateTeams from './createTeams';
-// import OtherTeam from './otherTeams.jsx.js';
-import DraftOrder from './draftOrder';
-// import ChatWindow from './chatWindow.jsx.js';
+import UserTeam from './UserTeam';
+import CreateTeams from './CreateTeams';
+import OtherTeams from './OtherTeams';
+import DraftOrder from './DraftOrder';
+import ChatWindow from './ChatWindow';
 // import Bracket from './bracket.jsx.js';
 import AuthComponent from '../Authenticated';
 
@@ -26,7 +26,6 @@ import AuthComponent from '../Authenticated';
       this.state = {
         round: 0,
         position: 0,
-        otherTeams: [],
         leagueId: this.props.params.league,
         username: '',
         teamId: '',
@@ -118,7 +117,8 @@ import AuthComponent from '../Authenticated';
     render() {
       console.log('render main', this.props, 'state', this.state)
       const {
-        schoolsList
+        schoolsList,
+        teams,
       } = this.props;
       
       const { 
@@ -132,7 +132,6 @@ import AuthComponent from '../Authenticated';
         position, 
         yourTurn, 
         teamId, 
-        otherTeams, 
         username 
       } = this.state;
 
@@ -146,10 +145,9 @@ import AuthComponent from '../Authenticated';
             <DraftOrder order = {draftOrder} round = {round} position = {position} />
             <a href={"/bracket/" + leagueId } className="bracketLink"></a>
             <TeamPool yourTurn={yourTurn} leagueId={leagueId} schoolsList={schoolsList} teamId={teamId} />
-           {/*}
-            <OtherTeam otherTeams={otherTeams} />
+            <OtherTeams otherTeams={teams} />
             <UserTeam teamId={teamId} />
-            <ChatWindow leagueId = {leagueId} username={username} />*/}
+            <ChatWindow leagueId = {leagueId} username={username} />
           </div>
         );
     }

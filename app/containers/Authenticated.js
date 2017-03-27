@@ -17,7 +17,6 @@ const Authenticated = function(RequestComponent) {
     }
 
     componentWillMount() {
-      console.log('mount', this.props)
       this.props.verify();
     }
 

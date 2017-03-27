@@ -1,0 +1,69 @@
+li {
+  list-style: none;
+}
+
+p {
+  margin: 0;
+}
+
+body {
+  background: #c4c4c4;
+}
+
+.main {
+  position: relative;
+}
+
+.round-info {
+  font-size: 16px;
+  p {
+    margin: 0;
+  }
+}
+
+td {
+  width: 20px;
+  border: 1px solid green;
+}
+
+
+.team-box-container {
+  width: 30%;
+  float: left;
+}
+
+.team-pool {
+  height: 500px;
+  overflow-y: auto;
+}
+
+.topTarget {
+  width: 100%;
+  height: 50%;
+  position: absolute;
+  top: 0;
+  z-index: 2;
+  border-top: 1px solid black;
+}
+
+.bottomTarget {
+  width: 100%;
+  height: 50%;
+  position: absolute;
+  top: 50%;
+  border-bottom: 1px solid black;
+}
+
+.school {
+  position: relative;
+
+  .bottomTarget &{
+    display: none;
+    border: none;
+  }
+
+  .topTarget &{
+    top: -4px;
+    border: none;
+  }
+}

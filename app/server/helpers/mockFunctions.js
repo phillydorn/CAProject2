@@ -17,7 +17,7 @@ module.exports = {
             id: i
           },
           body: {
-            teamname: 'team' + i,
+            teamname: 'CPU Team ' + i,
             position: i
 
           }

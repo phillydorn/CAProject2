@@ -1,4 +1,6 @@
 import { createStore, applyMiddleware, compose } from 'redux';
+import createSocketIoMiddleware from 'redux-socket.io';
+import io from 'socket.io-client';
 import thunkMiddleware from 'redux-thunk';
 // import apiMiddleware from '../middleware/api';
 import createLogger from 'redux-logger';
@@ -12,9 +14,19 @@ import rootReducer from '../reducers';
 //   predicate: (getState, action) => { return true; },
 // });
 
-const createStoreWithMiddleware = applyMiddleware(
-  thunkMiddleware
-)(createStore);
+const socket = io('http://localhost:3000');
+const socketIoMiddleware = createSocketIoMiddleware(socket, 'server/');
+
+function reducer(state={}, action) {
+  switch(action.type) {
+    case 'message':
+      return Object.assign({}, {message: action.data});
+    default:
+      return state;
+  }
+}
+
+const createStoreWithMiddleware = applyMiddleware(thunkMiddleware, socketIoMiddleware)(createStore);
 
 export default function configureStore(initialState) {
   const store = createStoreWithMiddleware(rootReducer, initialState, compose(

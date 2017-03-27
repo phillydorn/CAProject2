@@ -1,5 +1,5 @@
 import Immutable from 'immutable';
-import * as ActionType from '../actions/draft/draft';
+import * as ActionType from '../../actions/draft/draft';
 
 const defaultState = Immutable.fromJS({
     draftOrder: [[]], 
@@ -25,7 +25,8 @@ function draftReducer(state = defaultState, action) {
 
     case ActionType.POPULATED:
       return state.merge(Immutable.fromJS({draftOrder, leagueName, schoolsList, teams, userTeam, username}));
-
+    case 'returning':
+      console.log('we made it', action.data);
  
     default:
       return state;

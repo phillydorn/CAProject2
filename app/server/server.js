@@ -28,11 +28,12 @@ import cookieParser from 'cookie-parser';
 import session from 'express-session';
 import passport from 'passport';
 
+
 global.XMLHttpRequest = require('xmlhttprequest').XMLHttpRequest;
 
 // Logging setup
 const loggingOpts = {
-  name: 'genesis',
+  name: 'bracketDraft',
   streams: [{
     stream: process.stdout,
     level: 'info',
@@ -55,6 +56,7 @@ const logger = bunyan.createLogger(loggingOpts);
 })();
 
 const server = new Express();
+
 const port = process.env.PORT || 3000;
 let scriptSrcs;
 
@@ -175,7 +177,52 @@ var teams = require('./helpers/teamFunctions');
 var draft = require('./helpers/draftFunctions');
 var drafts = {};
 
+const httpServer = require('http').Server(server);
+const io = require('socket.io').listen(httpServer);
 
+
+io.on('connection', function(socket) {
+  console.log('connected')
+
+  socket.on('action', (action) => {
+    if (action.type === 'server/test') {
+      console.log('testing', action.data)
+      socket.emit('action', {type: 'returning', data: 'comming back'});
+
+    } else if (action.type === 'server/leaguePage') {
+      const { leagueId } = action.data;
+      socket.join(leagueId);
+      draft.checkDraftInProgress(leagueId, socket);
+      io.to(leagueId).emit('update', leagueId);
+
+    } else if (action.type === 'server/sendMessage') {
+      const { leagueId } = action.data;
+      io.to(leagueId).emit('newMessage', action.data); 
+
+    } else if (action.type === 'server/startDraft') {
+      const { leagueId } = action.data;
+      leagues.startDraft(io, leagueId);
+
+    } else if (action.type === 'server/update') {
+      let { leagueId, schoolName, teamId } = action.data;
+      console.log('update', teamId)
+      teams.getTeamName(teamId, leagueId, schoolName, io);
+      draft.advance(leagueId, io);
+
+    } else if (action.type === 'server/leave') {
+      const { leagueId, teamId } = action.data;
+      console.log('close connection', leagueId);
+      socket.leave(leagueId)
+      console.log('leaving', teamId)
+      teams.turnOnAutoDraft(teamId);
+
+    } else if (action.type === 'server/disconnect') {
+      console.log('closing')
+    }
+
+
+  });
+});
 
 
 server.get('*', (req, res, next) => {
@@ -183,7 +230,6 @@ server.get('*', (req, res, next) => {
   const store = configureStore({ log: req.log });
   const routes = createRoutes(history);
   const location = history.createLocation(req.url);
-  console.log('here we are')
   match({ routes, location }, (error, redirectLocation, renderProps) => {
     if (redirectLocation) {
       res.redirect(301, redirectLocation.pathname + redirectLocation.search);
@@ -289,7 +335,7 @@ models.NCAA_Team.sync().then(function () {
   });
 
   logger.info(`Server is listening to port: ${port}`);
-  const appHttpServer = server.listen(port, () => {
+  const appHttpServer = httpServer.listen(port, () => {
     if (process.send) {
       process.send('ready');
     }
@@ -337,3 +383,4 @@ models.NCAA_Team.sync().then(function () {
   }
 });
 
+module.exports = io;

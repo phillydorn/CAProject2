@@ -1,6 +1,6 @@
 import React  from 'react';
 import { connect } from 'react-redux';
-import { createTeams } from '../../actions/draft/createTeams';
+import { createTeams } from '../../actions/draft/mockTeams';
 
 
 class CreateTeams extends React.Component {
@@ -15,7 +15,8 @@ class CreateTeams extends React.Component {
 
 
   clickHandler(e) {
-    this.props.createTeams(this.props.leagueId);
+    const { leagueId } = this.props;
+    this.props.createTeams({leagueId});
   }
 
 
