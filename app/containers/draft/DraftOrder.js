@@ -14,7 +14,7 @@ class DraftOrder extends Component {
 
         return drafter ? {team_name: drafter.team_name, currentlyDrafting: false} : null ;
       });
-      console.log('drafters', prev.concat(currentDrafter).concat(next))
+      // console.log('drafters', prev.concat(currentDrafter).concat(next))
       return prev.concat(currentDrafter).concat(next);
     } else {
       return [];

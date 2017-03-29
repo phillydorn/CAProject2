@@ -1,6 +1,7 @@
 import React, {Component, PropTypes} from 'react';
 import { connect } from 'react-redux';
 import SchoolSlot  from './SchoolSlot';
+import { loadTeams } from '../../actions/draft/draft';
 // var MainActions = require('../actions/MainActions');
 
 
@@ -17,6 +18,7 @@ class TeamPoolContainer extends Component {
     return nextProps.teamId !== this.props.teamId ||
            nextProps.schoolsList.length !== this.props.schoolsList.length ||
            nextProps.yourTurn !== this.props.yourTurn ||
+           nextState.ranking !== this.state.ranking ||
            !this.checkSchoolsList(nextProps);
   }
 
@@ -34,29 +36,32 @@ class TeamPoolContainer extends Component {
   toggleDefault(e) {
     e.preventDefault();
     this.setState({ranking: 'default'})
-    console.log('toggling', this.state.ranking)
-    MainActions.populate(this.props.leagueId, null, 'default');
   }
 
   toggleCustom (e) {
     e.preventDefault();
     this.setState({ranking: 'custom'})
-    console.log('toggling', this.state.ranking)
-    MainActions.populate(this.props.teamId, null, 'custom');
   }
 
   render() {
-    console.log('render teampool', this.props, 'state', this.state)
-    let isDefault = this.state.ranking === 'default' ? 'ranking-on' : '';
-    let isCustom = this.state.ranking === 'custom' ? 'ranking-on' : '';
+    // console.log('render teampool', this.props, 'state', this.state)
+    const { ranking } = this.state;
+    let isDefault = ranking === 'default' ? 'ranking-on' : '';
+    let isCustom = ranking === 'custom' ? 'ranking-on' : '';
 
 
-    let schoolNodes = this.props.schoolsList.map((school, rank) => {
-      return (
-          <SchoolSlot { ...this.props} schoolName = {school.market} schoolId= {school.id} rank={rank+1} rankingType={this.state.ranking} key={school.id} >
-          </SchoolSlot>
-        )
-    });
+    let schoolNodes = this.props.schoolsList.sort((a,b)=> {
+      if (ranking === 'default') {
+        return a.RPI_Ranking - b.RPI_Ranking;
+      }
+      return a.playerRanking - b.playerRanking;
+    })
+      .map((school, rank) => {
+        return (
+            <SchoolSlot { ...this.props} schoolName = {school.market} schoolId= {school.id} rank={rank+1} rankingType={this.state.ranking} key={school.id} >
+            </SchoolSlot>
+          )
+      });
     return (
       <div className="team-box-container">
         <div className="ranking-switch">
@@ -75,7 +80,7 @@ class TeamPoolContainer extends Component {
 };
 
 function mapStateToProps(state) {
-  // const {  } = state.auth.toJS();
+  const {  } = state.auth.toJS();
   return {  };
 }
 
@@ -85,4 +90,4 @@ TeamPoolContainer.propTypes = {
 
 export { TeamPoolContainer};
 
-export default connect(mapStateToProps, {  })(TeamPoolContainer);
+export default connect(mapStateToProps, { loadTeams })(TeamPoolContainer);

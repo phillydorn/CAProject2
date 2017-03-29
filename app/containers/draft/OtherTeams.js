@@ -40,7 +40,7 @@ class OtherTeams extends Component {
   render () {
 
     const { teamId, teamName } = this.state;
-    console.log('render other Teams', this.props, 'state', this.state)
+    // console.log('render other Teams', this.props, 'state', this.state)
     const otherTeams = this.props.otherTeams.map(function(team) {
       return (
         <option key={team.id} value={team.id}>{team.team_name}</option>

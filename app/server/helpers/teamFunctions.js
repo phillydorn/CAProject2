@@ -19,7 +19,9 @@ module.exports = {
             schools.forEach((school) =>{
               leagueSchools.forEach((leagueSchool) =>{
                 if (school.id == leagueSchool.id) {
-                  undraftedSchools.push(leagueSchool);
+                  const { playerRanking } = school.Team_NCAA;
+                  const { RPI_Ranking, market, id } = leagueSchool;
+                  undraftedSchools.push({playerRanking, RPI_Ranking, market, id});
                 }
               });
             });

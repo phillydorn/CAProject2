@@ -1,48 +1,57 @@
 import fetch from '../../utils/api';
 
 export const POPULATED = Symbol('POPULATED');
+export const LOADED_TEAMPOOL = Symbol('LOADED_TEAMPOOL');
 
 
-const populated = ({draftOrder, leagueName, schoolsList, teams, userTeam, username}) => {
+const populated = ({draftOrder, leagueName, teams, userTeam, username}) => {
   return {
     type: POPULATED,
     draftOrder, 
     leagueName, 
-    schoolsList, 
     teams, 
     userTeam, 
     username,
   };
 };
 
+const loadedTeams = ({schoolsList}) => {
+  return {
+    type: LOADED_TEAMPOOL,
+    schoolsList,
+  }
+};
 
-export function populate({id, socket, order}) {
+
+export function populate({id, socket}) {
   return (dispatch, getState) => {
     dispatch({type: 'server/test', data: 'this is working'})
-    if (id) {
-      order = order || 'default';
-      let url;
-      if (order === 'default') {
-        url = '/api/leagues/'+id;
-      } else if (order == 'custom') {
-        url = '/api/teams/pool/' + id
-      }
-      return fetch(getState().log)(url)
+      return fetch(getState().log)(`/api/leagues/${id}`)
         .then((response) => {
           const {
             draftOrder,
             leagueName,
-            schoolsList,
             teams,
             userTeam,
             username,
           } = response;
-          return dispatch(populated({draftOrder, leagueName, schoolsList, teams, userTeam, username}));
+          dispatch(loadTeams({teamId: userTeam.id}))
+          return dispatch(populated({draftOrder, leagueName, teams, userTeam, username}));
          
         });
     }
   };
+
+export function loadTeams({teamId}) {
+  return (dispatch, getState) => {
+    return fetch(getState().log)(`/api/teams/pool/${teamId}`)
+      .then((response) => {
+        const { schoolsList } = response;
+        return dispatch(loadedTeams({schoolsList}));
+      })
+  }
 }
+
 
   // onSelectTeamCompleted: function(leagueId, schoolId, teamId, schoolName) {
   //   console.log('complete')

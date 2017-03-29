@@ -26,22 +26,15 @@ import AuthComponent from '../Authenticated';
       this.state = {
         round: 0,
         position: 0,
-        leagueId: this.props.params.league,
-        username: '',
-        teamId: '',
-        leagueName: '',
-        schoolsList: [],
         yourTurn: false,
         activeTeam: '',
         drafting: false,
-        draftOrder: []
       }
     }
 
 
     componentDidMount(){
       this.props.populate({id: this.props.params.league});
-    //   this.listenTo(mainStore, this.populate);
     //   this.listenTo(teamPoolStore, this.rerank);
     //   socket.emit('leaguePage', {leagueId: this.state.leagueId});
     //   socket.on('update', (message) =>{
@@ -115,24 +108,25 @@ import AuthComponent from '../Authenticated';
     // }
 
     render() {
-      console.log('render main', this.props, 'state', this.state)
+      // console.log('render main', this.props, 'state', this.state)
       const {
         schoolsList,
         teams,
+        userTeam,
+        leagueName,
+        draftOrder, 
+        username 
       } = this.props;
+      const leagueId = this.props.params.league;
+      const teamId = userTeam.id;
       
       const { 
         drafting, 
-        leagueName, 
         round, 
         activeTeamId, 
         activeTeamName, 
-        leagueId, 
-        draftOrder, 
         position, 
         yourTurn, 
-        teamId, 
-        username 
       } = this.state;
 
       let startButton = drafting ? '' : <button className="start" onClick={this.startDraft} >Start Draft</button>

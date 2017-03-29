@@ -24,7 +24,7 @@ class UserTeam extends Component {
  //  },
 
   render () {
-    console.log('render user', this.props, 'state', this.state)
+    // console.log('render user', this.props, 'state', this.state)
     var schoolNodes = this.state.userSchoolList.sort((a,b)=>{
       return a.Team_NCAA.round - b.Team_NCAA.round;
     }).map(function (school, order) {

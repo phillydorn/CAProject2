@@ -138,10 +138,7 @@ module.exports = {
     var id = req.url.slice(1);
     console.log('url', req.url)
     models.League.findById(id).then ( (league)=> {
-      league.getNCAA_Teams({
-        order: ['RPI_Ranking']
-      }).then ((NCAATeams) =>{
-        let data = {schoolsList: NCAATeams, leagueName:league.name}
+        let data = {leagueName:league.name}
         league.getTeams().then((teams)=>{
           data.teams = teams;
           models.User.findById(req.user.id).then((user) => {
@@ -157,9 +154,7 @@ module.exports = {
             });
           });
         });
-
       });
-    })
   },
 
   getDraftOrder (teams) {
