@@ -4,7 +4,6 @@ import auth from './auth/auth';
 import log from './log';
 import leagues from './leagues';
 import draft from './draft/draft';
-import mockTeams from './draft/mockTeams';
 
 
 const rootReducer = combineReducers({
@@ -12,7 +11,6 @@ const rootReducer = combineReducers({
   log,
   leagues,
   draft,
-  mockTeams,
 });
 
 

@@ -110,7 +110,8 @@ import AuthComponent from '../Authenticated';
     render() {
       // console.log('render main', this.props, 'state', this.state)
       const {
-        schoolsList,
+        defaultSchoolsList,
+        customSchoolsList,
         teams,
         userTeam,
         leagueName,
@@ -138,7 +139,7 @@ import AuthComponent from '../Authenticated';
             <CreateTeams leagueId = {leagueId} />
             <DraftOrder order = {draftOrder} round = {round} position = {position} />
             <a href={"/bracket/" + leagueId } className="bracketLink"></a>
-            <TeamPool yourTurn={yourTurn} leagueId={leagueId} schoolsList={schoolsList} teamId={teamId} />
+            <TeamPool yourTurn={yourTurn} leagueId={leagueId} defaultSchoolsList={defaultSchoolsList} customSchoolsList = {customSchoolsList} teamId={teamId} />
             <OtherTeams otherTeams={teams} />
             <UserTeam teamId={teamId} />
             <ChatWindow leagueId = {leagueId} username={username} />
@@ -149,8 +150,8 @@ import AuthComponent from '../Authenticated';
 
 function mapStateToProps(state) {
   const { loggedIn } = state.auth.toJS();
-  const {draftOrder, leagueName, schoolsList, teams, userTeam, username} = state.draft.toJS();
-  return { loggedIn, draftOrder, leagueName, schoolsList, teams, userTeam, username};
+  const {draftOrder, leagueName, defaultSchoolsList, customSchoolsList, teams, userTeam, username} = state.draft.toJS();
+  return { loggedIn, draftOrder, leagueName, defaultSchoolsList, customSchoolsList, teams, userTeam, username};
 }
 
 DraftPageContainer.propTypes = {

@@ -1,8 +1,7 @@
 import Immutable from 'immutable';
-import * as ActionType from '../../actions/draft/mockTeams';
+import * as ActionType from '../../actions/draft/teamPool';
 
 const defaultState = Immutable.fromJS({
-    draftOrder: [[]], 
     leagueName: '', 
     schoolsList: [], 
     teams: [], 

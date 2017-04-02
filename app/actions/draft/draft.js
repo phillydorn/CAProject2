@@ -15,12 +15,25 @@ const populated = ({draftOrder, leagueName, teams, userTeam, username}) => {
   };
 };
 
-const loadedTeams = ({schoolsList}) => {
+const loadedTeams = ({defaultSchoolsList, customSchoolsList}) => {
   return {
     type: LOADED_TEAMPOOL,
-    schoolsList,
+    defaultSchoolsList, 
+    customSchoolsList,
   }
 };
+
+const sortTeamsByDefaultRanking = ({schoolsList}) => {
+  return schoolsList.sort((a,b) => {
+    return a.RPI_Ranking - b.RPI_Ranking;
+  });
+}
+
+const sortTeamsByCustomRanking = ({schoolsList}) => {
+  return schoolsList.sort((a,b) => {
+    return a.playerRanking - b.playerRanking;
+  });
+}
 
 
 export function populate({id, socket}) {
@@ -47,7 +60,9 @@ export function loadTeams({teamId}) {
     return fetch(getState().log)(`/api/teams/pool/${teamId}`)
       .then((response) => {
         const { schoolsList } = response;
-        return dispatch(loadedTeams({schoolsList}));
+        const defaultSchoolsList = sortTeamsByDefaultRanking({schoolsList})
+        const customSchoolsList = sortTeamsByCustomRanking({schoolsList})
+        return dispatch(loadedTeams({defaultSchoolsList, customSchoolsList}));
       })
   }
 }

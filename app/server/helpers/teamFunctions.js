@@ -41,13 +41,13 @@ module.exports = {
           let draftedSchools = schools.filter((school)=>{
             return school.Team_NCAA.draftedByMe;
           });
-          res.status(200).send(draftedSchools);
+          res.status(200).json(draftedSchools);
         });
       } else {
-        res.status(200).send([]);
+        res.status(200).json([]);
       }
     }).catch(function(err) {
-        res.status(200).send([]);
+        res.status(200).json([]);
       });
   },
 
@@ -83,7 +83,7 @@ module.exports = {
           // NCAATeam.save();
           totalTeams ++;
           if (totalTeams >= NCAATeams.length) {
-            res.sendStatus(200);
+            res.status(200).json({schoolsList: []});
           }
         })
       })

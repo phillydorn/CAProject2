@@ -1,10 +1,9 @@
 import React, {Component, PropTypes} from 'react';
+import { connect } from 'react-redux';
 import { DragSource } from 'react-dnd';
 import { ItemTypes } from '../../utils/constants';
+import { rerank } from '../../actions/draft/teamPool';
 // import SchoolActions from '../actions/SchoolActions';
-// import UserTeamActions from '../actions/UserTeamActions';
-// import schoolStore from '../stores/schoolStore';
-// import TeamPoolActions from '../actions/TeamPoolActions';
 
 const schoolSource = {
 
@@ -18,13 +17,13 @@ const schoolSource = {
   },
   endDrag(props, monitor, dragComponent) {
     if (monitor.didDrop()){
-      let {rank, dropComponent, position} = monitor.getDropResult();
-      let {teamId, schoolId, schoolsList} = props;
-      let currentRank = props.rank;
+      const {rank, dropComponent, position} = monitor.getDropResult();
+      const newRank = rank;
+      const {teamId, schoolId, customSchoolsList} = props;
+      const currentRank = props.rank;
       console.log('diddrop',monitor.getDropResult())
       console.log('drag', dragComponent)
-      // TeamPoolActions.rerank(dragComponent, dropComponent, currentRank, rank, position, schoolsList);
-      // SchoolActions.rerank(schoolId, currentRank, rank, teamId);
+      dragComponent.props.rerank({currentRank, newRank, customSchoolsList, teamId, schoolId})
 
     }
   }
@@ -71,4 +70,4 @@ School.propTypes = {
   };
 
 
-export default DragSource(ItemTypes.SCHOOL, schoolSource, collect)(School);
+export default connect(null, { rerank })(DragSource(ItemTypes.SCHOOL, schoolSource, collect)(School));
