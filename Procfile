@@ -1,1 +1,1 @@
-web: NODE_PATH=./app node app/server
+web: NODE_PATH=./dist node dist/server
