@@ -2,7 +2,7 @@ import React, {Component, PropTypes} from 'react';
 import {connect } from 'react-redux';
 import { loadUserLeagues } from '../actions/leagues';
 import AuthComponent from './Authenticated';
-import Leagues from '../components/leagues';
+import Leagues from '../components/Leagues';
 
 
 
